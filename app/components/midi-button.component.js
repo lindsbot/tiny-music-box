@@ -9,8 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var store_1 = require('@ngrx/store');
+var midi_button_1 = require('../reducers/midi-button');
 var MidiButtonComponent = (function () {
-    function MidiButtonComponent() {
+    function MidiButtonComponent(store) {
+        this.store = store;
+        this.toggle = function () {
+            this.store.dispatch({ type: midi_button_1.START });
+        };
+        this.status = store.select('status');
     }
     __decorate([
         core_1.Input(), 
@@ -20,9 +27,9 @@ var MidiButtonComponent = (function () {
         core_1.Component({
             selector: 'midi-button',
             styleUrls: ['app/components/midi-button.css'],
-            template: "\n    <div class=\"midi-button {{color}}\">\n    </div>\n  "
+            template: "\n    <div class=\"midi-button {{color}}\"\n      (click)=\"toggle()\"\n    >\n    </div>\n  "
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [store_1.Store])
     ], MidiButtonComponent);
     return MidiButtonComponent;
 }());

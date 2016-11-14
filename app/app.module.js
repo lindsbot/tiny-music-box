@@ -10,15 +10,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
+var store_1 = require('@ngrx/store');
 var app_component_1 = require('./app.component');
 var midi_rainbow_component_1 = require('./components/midi-rainbow.component');
 var midi_button_component_1 = require('./components/midi-button.component');
+var midi_button_1 = require('./reducers/midi-button');
 var AppModule = (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
-            imports: [platform_browser_1.BrowserModule],
+            imports: [
+                platform_browser_1.BrowserModule,
+                store_1.StoreModule.provideStore({ status: midi_button_1.MidiButtonReducer })
+            ],
             declarations: [
                 app_component_1.AppComponent,
                 midi_rainbow_component_1.MidiRainbowComponent,

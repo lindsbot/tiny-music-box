@@ -12,10 +12,13 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 var core_1 = require('@angular/core');
+var store_1 = require('@ngrx/store');
 var MidiButtonService_1 = require('../services/MidiButtonService');
 var MidiRainbowComponent = (function () {
-    function MidiRainbowComponent(MidiButtonService) {
+    function MidiRainbowComponent(MidiButtonService, store) {
         this.MidiButtonService = MidiButtonService;
+        this.store = store;
+        this.status = store.select('status');
         this.buttonData = MidiButtonService.generateButtons();
     }
     MidiRainbowComponent = __decorate([
@@ -23,11 +26,11 @@ var MidiRainbowComponent = (function () {
             selector: 'midi-rainbow',
             styleUrls: ['app/components/midi-rainbow.css'],
             providers: [MidiButtonService_1.MidiButtonService],
-            template: "\n    <h1>i'm a rainbow</h1>\n    <div class=\"midi-rainbow\">\n      <midi-button \n        *ngFor=\"let button of buttonData\"\n        [color]=\"button.color\"\n      ></midi-button>\n    </div>\n  "
+            template: "\n    <h1>i'm a rainbow</h1>\n    <h1>{{status | async}}</h1>\n    <div class=\"midi-rainbow\">\n      <midi-button \n        *ngFor=\"let button of buttonData\"\n        [color]=\"button.color\"\n      ></midi-button>\n    </div>\n  "
         }),
         core_1.Injectable(),
         __param(0, core_1.Inject(MidiButtonService_1.MidiButtonService)), 
-        __metadata('design:paramtypes', [Object])
+        __metadata('design:paramtypes', [Object, store_1.Store])
     ], MidiRainbowComponent);
     return MidiRainbowComponent;
 }());

@@ -5,10 +5,15 @@
  */
 (function (global) {
   System.config({
+    //use typescript for compilation
+    transpiler: 'typescript',
+    typescriptOptions: {
+      emitDecoratorMetadata: true
+    },    
     meta: {
       "*.scss": { "loader": "sass" },
       "*.sass": { "loader": "sass" },
-      // "*.css": { "loader": "css" }
+      "*.css": { "loader": "css" }
     },
     paths: {
       // paths serve as alias
@@ -29,8 +34,9 @@
       '@angular/forms': 'npm:@angular/forms/bundles/forms.umd.js',
       '@angular/upgrade': 'npm:@angular/upgrade/bundles/upgrade.umd.js',
       // other libraries
-      'rxjs':                      'npm:rxjs',
-      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
+      'rxjs': 'npm:rxjs',
+      'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
+      '@ngrx': 'npm:@ngrx',
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {
@@ -40,7 +46,19 @@
       },
       rxjs: {
         defaultExtension: 'js'
-      }
+      },
+      '@ngrx/core': {
+        main: 'bundles/core.umd.js',
+        format: 'cjs'
+      },
+      '@ngrx/store': {
+        main: 'bundles/store.umd.js',
+        format: 'cjs'
+      },
+      '@ngrx/effects': {
+        main: 'bundles/effects.umd.js',
+        format: 'cjs'
+      },   
     }
   });
 })(this);

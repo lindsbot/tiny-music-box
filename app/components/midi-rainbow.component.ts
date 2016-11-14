@@ -1,6 +1,12 @@
 import { Component, Inject, Injectable } from '@angular/core'; 
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
 
 import { MidiButtonService } from '../services/MidiButtonService';
+
+interface AppState {
+  status: boolean
+}
 
 @Component({
   selector: 'midi-rainbow',
@@ -8,6 +14,7 @@ import { MidiButtonService } from '../services/MidiButtonService';
   providers: [ MidiButtonService ],
   template: `
     <h1>i'm a rainbow</h1>
+    <h1>{{status | async}}</h1>
     <div class="midi-rainbow">
       <midi-button 
         *ngFor="let button of buttonData"
@@ -20,8 +27,13 @@ import { MidiButtonService } from '../services/MidiButtonService';
 @Injectable()
 export class MidiRainbowComponent { 
   private buttonData :Array<any>;
+  status: Observable<boolean>;
 
-  constructor(@Inject(MidiButtonService) private MidiButtonService) {
+  constructor(
+    @Inject(MidiButtonService) private MidiButtonService, 
+    private store: Store<AppState>
+  ){
+    this.status = store.select('status');
     this.buttonData = MidiButtonService.generateButtons();
   }
 };
