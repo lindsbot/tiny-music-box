@@ -1,0 +1,58 @@
+.midi-button {
+  background-color: gray;
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  margin: 8px;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.midi-button.red {
+  background-color: #C02E1D;
+}
+
+.midi-button.dark_orange {
+  background-color: #D94E1F
+}
+
+.midi-button.orange {
+  background-color: #F16C20;  
+}
+
+.midi-button.light_orange {
+  background-color: #EF8B2C;  
+}
+
+.midi-button.dark_yellow {
+  background-color: #ECAA38;
+}
+
+.midi-button.yellow {
+  background-color: #EBC844;
+}
+
+.midi-button.light_green {
+  background-color: #A2B86C;
+}
+
+.midi-button.green {
+  background-color: #5CA793; 
+}
+
+.midi-button.light_blue {
+  background-color: #1395BA;
+}
+
+.midi-button.med_blue {
+  background-color: #117899;
+}
+
+.midi-button.dark_blue {
+  background-color: #0F5B78;
+}
+
+.midi-button.cobalt {
+  background-color: #0D3C55;
+}
+

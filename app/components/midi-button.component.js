@@ -9,19 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var AppComponent = (function () {
-    function AppComponent() {
-        this.title = 'Tiny Music Box';
+var MidiButtonComponent = (function () {
+    function MidiButtonComponent() {
     }
-    AppComponent = __decorate([
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], MidiButtonComponent.prototype, "color", void 0);
+    MidiButtonComponent = __decorate([
         core_1.Component({
-            selector: 'music-box',
-            styleUrls: ['app/app.css'],
-            template: "\n    <h1>{{title}}</h1>\n    <midi-rainbow></midi-rainbow>\n  ",
+            selector: 'midi-button',
+            styleUrls: ['app/components/midi-button.css'],
+            template: "\n    <div class=\"midi-button {{color}}\">\n    </div>\n  "
         }), 
         __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
+    ], MidiButtonComponent);
+    return MidiButtonComponent;
 }());
-exports.AppComponent = AppComponent;
+exports.MidiButtonComponent = MidiButtonComponent;
 ;

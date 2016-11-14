@@ -5,6 +5,11 @@
  */
 (function (global) {
   System.config({
+    meta: {
+      "*.scss": { "loader": "sass" },
+      "*.sass": { "loader": "sass" },
+      // "*.css": { "loader": "css" }
+    },
     paths: {
       // paths serve as alias
       'npm:': 'node_modules/'
