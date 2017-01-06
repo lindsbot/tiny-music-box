@@ -2,11 +2,9 @@ import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
-import { START, STOP } from '../reducers/midi-button';
+import { AppState } from '../app-state'
 
-interface AppState {
-  status: boolean
-}
+import { TOGGLE } from '../reducers/midi-button';
 
 @Component({
   selector: 'midi-button',
@@ -15,24 +13,23 @@ interface AppState {
     <div class="midi-button {{color}}"
       (click)="toggle()"
     >
+    {{id}}
     </div>
   `
 })
 
 export class MidiButtonComponent { 
   @Input() color: string;
+  @Input() id: number;
 
-  status: Observable<boolean>;
+  playing: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {
-    this.status = store.select('status');
+    this.playing = store.select('playing');
   }
 
   toggle = function() {
-
-    this.store.dispatch({ type: START });
-
+    this.store.dispatch({ type: TOGGLE, id: this.id });
   }
-
 
 };

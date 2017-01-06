@@ -1,9 +1,10 @@
-.classy {
-  background-color: yellow;
-  color: purple;
+body {
+  background-color: lightblue;
 }
 
-.red {
-  background-color: #C02E1D;
+#refresh-btn {
+  display: inline-block;
+  padding: 12px;
+  border: 1px solid gray;
+  cursor: pointer;
 }
-

@@ -37,6 +37,8 @@
       'rxjs': 'npm:rxjs',
       'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
       '@ngrx': 'npm:@ngrx',
+      'tone': 'npm:tone',
+      'fetch': 'npm:fetch'
     },
     // packages tells the System loader how to load when no filename and/or no extension
     packages: {

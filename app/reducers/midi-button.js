@@ -1,13 +1,16 @@
 "use strict";
-exports.START = 'START';
-exports.STOP = 'STOP';
+exports.TOGGLE = 'TOGGLE';
+exports.VOLUME_UP = 'VOLUME_UP:';
 exports.MidiButtonReducer = function (state, action) {
     if (state === void 0) { state = false; }
     switch (action.type) {
-        case exports.START:
-            return true;
-        case exports.STOP:
-            return false;
+        case exports.TOGGLE:
+            if (state === true) {
+                return false;
+            }
+            else {
+                return true;
+            }
         default:
             return state;
     }

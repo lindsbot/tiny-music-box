@@ -2,23 +2,22 @@ import { Component, Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
+import { AppState } from '../app-state'
 import { MidiButtonService } from '../services/MidiButtonService';
-
-interface AppState {
-  status: boolean
-}
+import { AudioService } from '../services/AudioService';
 
 @Component({
   selector: 'midi-rainbow',
   styleUrls: ['app/components/midi-rainbow.css'],
-  providers: [ MidiButtonService ],
+  providers: [ MidiButtonService, AudioService ],
   template: `
     <h1>i'm a rainbow</h1>
-    <h1>{{status | async}}</h1>
+    <h1>{{playing | async}}</h1>
     <div class="midi-rainbow">
       <midi-button 
         *ngFor="let button of buttonData"
         [color]="button.color"
+        [id]="button.id"
       ></midi-button>
     </div>
   `
@@ -27,13 +26,14 @@ interface AppState {
 @Injectable()
 export class MidiRainbowComponent { 
   private buttonData :Array<any>;
-  status: Observable<boolean>;
+  playing: Observable<boolean>;
 
   constructor(
     @Inject(MidiButtonService) private MidiButtonService, 
+    @Inject(AudioService) private AudioService,
     private store: Store<AppState>
   ){
-    this.status = store.select('status');
+    this.playing = store.select('playing');
     this.buttonData = MidiButtonService.generateButtons();
   }
 };

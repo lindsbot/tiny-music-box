@@ -1,14 +1,17 @@
 import { ActionReducer, Action } from '@ngrx/store';
 
-export const START = 'START';
-export const STOP = 'STOP';
+export const TOGGLE = 'TOGGLE';
+export const VOLUME_UP = 'VOLUME_UP:';
 
 export const MidiButtonReducer :ActionReducer<any> = (state :boolean = false, action :Action) => {
   switch (action.type) {
-    case START:
-      return true;
-    case STOP:
-      return false;
+    case TOGGLE:
+      if (state === true) {
+        return false;
+      } else {
+        return true;
+      }
+
     default:
       return state;
   }
