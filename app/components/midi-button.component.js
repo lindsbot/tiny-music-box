@@ -8,34 +8,38 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var store_1 = require('@ngrx/store');
-var midi_button_1 = require('../reducers/midi-button');
+var core_1 = require("@angular/core");
+var store_1 = require("@ngrx/store");
+var midi_button_1 = require("../reducers/midi-button");
 var MidiButtonComponent = (function () {
     function MidiButtonComponent(store) {
         this.store = store;
         this.toggle = function () {
-            this.store.dispatch({ type: midi_button_1.TOGGLE, id: this.id });
+            // this is a dumb component, it doesn't need to know about state
+            // should just alert reducer it was clicked
+            this.store.dispatch({ type: midi_button_1.TOGGLE, payload: { id: this.id } });
         };
-        this.playing = store.select('playing');
     }
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], MidiButtonComponent.prototype, "color", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Number)
-    ], MidiButtonComponent.prototype, "id", void 0);
-    MidiButtonComponent = __decorate([
-        core_1.Component({
-            selector: 'midi-button',
-            styleUrls: ['app/components/midi-button.css'],
-            template: "\n    <div class=\"midi-button {{color}}\"\n      (click)=\"toggle()\"\n    >\n    {{id}}\n    </div>\n  "
-        }), 
-        __metadata('design:paramtypes', [store_1.Store])
-    ], MidiButtonComponent);
+    MidiButtonComponent.prototype.ngOnInit = function () {
+        this.playing = this.store.select('playing').select(this.id);
+    };
     return MidiButtonComponent;
 }());
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", String)
+], MidiButtonComponent.prototype, "color", void 0);
+__decorate([
+    core_1.Input(),
+    __metadata("design:type", Number)
+], MidiButtonComponent.prototype, "id", void 0);
+MidiButtonComponent = __decorate([
+    core_1.Component({
+        selector: 'midi-button',
+        styleUrls: ['app/components/midi-button.css'],
+        template: "\n    <div class=\"midi-button {{color}}\"\n      (click)=\"toggle()\"\n    >\n    {{id}}\n    {{playing | async}}\n    </div>\n  "
+    }),
+    __metadata("design:paramtypes", [store_1.Store])
+], MidiButtonComponent);
 exports.MidiButtonComponent = MidiButtonComponent;
 ;

@@ -1,3 +1,4 @@
+import { MidiButtonService } from './MidiButtonService';
 // https://github.com/teropa/harmonics-explorer/blob/master/src/app/services/audio.service.ts
 
 import { Injectable, OnDestroy } from '@angular/core';
@@ -7,9 +8,16 @@ import { Actions, Effect, mergeEffects } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
 import { TOGGLE } from '../reducers/midi-button';
-// import { playSample } from '../sampler' 
 
 import { AppState } from '../app-state';
+
+import { midiButtons } from '../data/midi-buttons';
+
+interface OscillatorBankItem {
+  oscillator: OscillatorNode;
+  gain: GainNode;
+  id: String;
+}
 
 @Injectable()
 export class AudioService implements OnDestroy {
@@ -17,14 +25,18 @@ export class AudioService implements OnDestroy {
 
   audioCtx = new AudioContext(); // Web Audio AudioContext
   masterGain = this.audioCtx.createGain(); // Master GainNode
-  
+
+  oscillatorBank: Array<OscillatorBankItem>;
+
   constructor(
     private actions$: Actions,
     private store: Store<AppState>
   ) {
+
     this.subscription = mergeEffects(this).subscribe(store);
-    this.masterGain.connect(this.audioCtx.destination)
-    console.log('hey im in the AudioService')
+    this.masterGain.connect(this.audioCtx.destination);
+
+    console.log('hey im in the AudioService');
   }
 
   // We listen to actions dispatched to @ngrx/store through @ngrx/effects,
@@ -36,12 +48,57 @@ export class AudioService implements OnDestroy {
     .ofType(TOGGLE)
     .withLatestFrom(this.store)
     .do(([action, state]) => {
-      // debugger;
-      console.log('playing: ' + action['id']);
-      this.play(action['id']);
+      console.log('state on effect: ');
+      console.dir(state);
+      if (state.playing[action.payload.id]) {
+        this.play(action.payload.id, state);
+      } else {
+        this.pause(action.payload.id, state);
+      }
     })
-    
-  private play(id) {
+
+  private play(id :string, state :AppState) {
+    // Ramp master volume up over 30ms.
+    // (Using ramp to prevent "pops", http://teropa.info/blog/2016/08/30/amplitude-and-loudness.html)
+    this.masterGain.gain.setValueAtTime(0, this.audioCtx.currentTime);
+    this.masterGain.gain.linearRampToValueAtTime(0.5, this.audioCtx.currentTime + 0.03);
+
+    this.oscillatorBank = <Array<OscillatorBankItem>>midiButtons.map(button => {
+      const oscillator = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+      const id = button.id;
+
+      oscillator.frequency.value = button.frequency;
+      gain.gain.value = button.amplitude;
+
+      return {oscillator, gain, id};
+    })
+
+    this.oscillatorBank.forEach(item => {
+      if (id === item.id) {
+        item.oscillator.connect(item.gain);
+        item.gain.connect(this.masterGain);
+
+        // Start playing immediately
+        item.oscillator.start();
+
+      }
+    })
+
+    console.log('playing: ' + id);
+  }
+
+  private pause(id :string, state :AppState) {
+    console.log('pausing: ' + id);
+
+    let context = this.audioCtx;
+
+    this.oscillatorBank.forEach(item => {
+      if (id === item.id) {
+        item.gain.gain.linearRampToValueAtTime(0, this.audioCtx.currentTime + 0.03);
+        item.oscillator.stop(context.currentTime + 0.03);
+      }
+    })
 
   }
 

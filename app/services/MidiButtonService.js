@@ -8,18 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var midi_buttons_1 = require('../data/midi-buttons');
+var core_1 = require("@angular/core");
+var midi_buttons_1 = require("../data/midi-buttons");
 var MidiButtonService = (function () {
     function MidiButtonService() {
     }
     MidiButtonService.prototype.generateButtons = function () {
         return midi_buttons_1.midiButtons;
     };
-    MidiButtonService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], MidiButtonService);
     return MidiButtonService;
 }());
+MidiButtonService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [])
+], MidiButtonService);
 exports.MidiButtonService = MidiButtonService;

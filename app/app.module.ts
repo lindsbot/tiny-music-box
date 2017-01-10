@@ -16,7 +16,7 @@ import { AudioService } from './services/AudioService';
 import { WindService } from './services/WindService';
 
 @NgModule({
-  imports: [ 
+  imports: [
     BrowserModule,
     HttpModule,
     StoreModule.provideStore({
@@ -28,7 +28,7 @@ import { WindService } from './services/WindService';
   providers: [
     WindService
   ],
-  declarations: [ 
+  declarations: [
     AppComponent,
     MidiRainbowComponent,
     MidiButtonComponent,
@@ -38,4 +38,4 @@ import { WindService } from './services/WindService';
 
 export class AppModule {
 
- }
+}

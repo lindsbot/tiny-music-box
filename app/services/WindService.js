@@ -8,12 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-require('rxjs/Rx');
-var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
-var Rx_1 = require('rxjs/Rx');
-var store_1 = require('@ngrx/store');
-var weather_1 = require('../reducers/weather');
+require("rxjs/Rx");
+var core_1 = require("@angular/core");
+var http_1 = require("@angular/http");
+var Rx_1 = require("rxjs/Rx");
+var store_1 = require("@ngrx/store");
+var weather_1 = require("../reducers/weather");
 var WindService = (function () {
     function WindService(http, store) {
         this.http = http;
@@ -34,10 +34,10 @@ var WindService = (function () {
             return Rx_1.Observable.throw(error.json().error || 'error from wunderground');
         });
     };
-    WindService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, store_1.Store])
-    ], WindService);
     return WindService;
 }());
+WindService = __decorate([
+    core_1.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http, store_1.Store])
+], WindService);
 exports.WindService = WindService;

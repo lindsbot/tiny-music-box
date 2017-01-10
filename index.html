@@ -10,7 +10,7 @@
     <script src="node_modules/zone.js/dist/zone.js"></script>
     <script src="node_modules/reflect-metadata/Reflect.js"></script>
     <script src="node_modules/systemjs/dist/system.src.js"></script>
-    <script type="text/javascript" src="https://tonejs.github.io/CDN/latest/Tone.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/0.9.0/Tone.js"></script>
     <!-- 2. Configure SystemJS -->
     <script src="systemjs.config.js"></script>
     <script>
@@ -19,6 +19,6 @@
   </head>
   <!-- 3. Display the application -->
   <body>
-    <music-box>Loading...</music-box>
+    <music-box><div id="loading"><img src="assets/loading.gif" /></div></music-box>
   </body>
 </html>

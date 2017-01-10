@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'; 
+import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -14,22 +14,28 @@ import { TOGGLE } from '../reducers/midi-button';
       (click)="toggle()"
     >
     {{id}}
+    {{playing | async}}
     </div>
   `
 })
 
-export class MidiButtonComponent { 
-  @Input() color: string;
-  @Input() id: number;
+export class MidiButtonComponent implements OnInit {
+  @Input() color :string;
+  @Input() id :number;
 
   playing: Observable<boolean>;
 
   constructor(private store: Store<AppState>) {
-    this.playing = store.select('playing');
   }
 
   toggle = function() {
-    this.store.dispatch({ type: TOGGLE, id: this.id });
+    // this is a dumb component, it doesn't need to know about state
+    // should just alert reducer it was clicked
+    this.store.dispatch({ type: TOGGLE, payload: { id: this.id } });
+  }
+
+  ngOnInit () {
+    this.playing = this.store.select('playing').select(this.id);
   }
 
 };
