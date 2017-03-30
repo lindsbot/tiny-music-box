@@ -2,6 +2,7 @@ import { ActionReducer, Action } from '@ngrx/store';
 import { AppStateRecord } from '../app-state';
 
 export const TOGGLE = 'TOGGLE';
+export const SUSTAIN = 'SUSTAIN';
 
 export const VOLUME_UP = 'VOLUME_UP:';
 
@@ -11,6 +12,8 @@ export const MidiButtonReducer :ActionReducer<AppStateRecord> = (state :any = ma
       return Object.assign({}, state, {
         [action.payload.id] : !state[action.payload.id]
       });
+    case SUSTAIN:
+      return Object.assign({}, state);
     default:
       return state;
   }

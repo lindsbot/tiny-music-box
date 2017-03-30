@@ -16,6 +16,7 @@ import { AudioService } from '../services/AudioService';
         *ngFor="let button of buttonData"
         [color]="button.color"
         [id]="button.id"
+        [note]="button.note"
       ></midi-button>
     </div>
   `

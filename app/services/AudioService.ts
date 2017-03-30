@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Actions, Effect, mergeEffects } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
-import { TOGGLE } from '../reducers/midi-button';
+import { TOGGLE, SUSTAIN } from '../reducers/midi-button';
 
 import { AppState } from '../app-state';
 
@@ -44,18 +44,43 @@ export class AudioService implements OnDestroy {
   // because we're never dispatching any further actions to the store. This service
   // is purely for side effects (= playing sounds)
 
+  // @Effect({dispatch: false}) play$ = this.actions$
+  //   .ofType(TOGGLE)
+  //   .withLatestFrom(this.store)
+  //   .do(([action, state]) => {
+  //     console.log('state on effect: ');
+  //     console.dir(state);
+  //     console.log('handling toggle for ' + action.payload.id)
+  //     if (state.playing[action.payload.id]) {
+  //       this.play(action.payload.id, state);
+  //     } else {
+  //       this.pause(action.payload.id, state);
+  //     }
+  //   })
+
   @Effect({dispatch: false}) play$ = this.actions$
-    .ofType(TOGGLE)
+    .ofType(SUSTAIN)
     .withLatestFrom(this.store)
     .do(([action, state]) => {
-      console.log('state on effect: ');
-      console.dir(state);
-      if (state.playing[action.payload.id]) {
-        this.play(action.payload.id, state);
-      } else {
-        this.pause(action.payload.id, state);
-      }
-    })
+      this.playSustain(action.payload.id);
+    });
+
+  private playSustain(id: string) {
+    const button = midiButtons.filter((button) => { return button.id === id })[0];
+    const oscillator = this.audioCtx.createOscillator();
+    const gain = this.audioCtx.createGain();
+
+    oscillator.frequency.value = button.frequency;
+    oscillator.type = 'sine';
+
+    oscillator.connect(gain);
+    gain.connect(this.masterGain);
+
+    oscillator.start(this.audioCtx.currentTime + 0.03);
+    gain.gain.exponentialRampToValueAtTime(button.amplitude, this.audioCtx.currentTime + 2);
+    
+    gain.gain.exponentialRampToValueAtTime(0.01, this.audioCtx.currentTime + 5);
+  }
 
   private play(id :string, state :AppState) {
     // Ramp master volume up over 30ms.
@@ -89,16 +114,17 @@ export class AudioService implements OnDestroy {
   }
 
   private pause(id :string, state :AppState) {
-    console.log('pausing: ' + id);
-
     let context = this.audioCtx;
 
     this.oscillatorBank.forEach(item => {
       if (id === item.id) {
-        item.gain.gain.linearRampToValueAtTime(0, this.audioCtx.currentTime + 0.03);
-        item.oscillator.stop(context.currentTime + 0.03);
+        console.log('pausing: ' + id);
+        console.log(context);
+        item.gain.gain.linearRampToValueAtTime(0, item.gain.context.currentTime + 0.03);
+        item.oscillator.disconnect();
+        item.gain.disconnect();
       }
-    })
+    });
 
   }
 
