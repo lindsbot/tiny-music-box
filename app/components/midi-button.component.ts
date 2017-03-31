@@ -11,7 +11,7 @@ import { TOGGLE, SUSTAIN } from '../reducers/midi-button';
   styleUrls: ['app/components/midi-button.css'],
   template: `
     <div class="midi-button {{color}}"
-      (mouseenter)="toggle()"
+      (mouseenter)="playButton()"
     >
     {{note}}
     {{playing | async}}
@@ -29,7 +29,7 @@ export class MidiButtonComponent implements OnInit {
   constructor(private store: Store<AppState>) {
   }
 
-  toggle = function() {
+  playButton() {
     // this is a dumb component, it doesn't need to know about state
     // should just alert reducer it was clicked
     this.store.dispatch({ type: SUSTAIN, payload: { id: this.id } });
