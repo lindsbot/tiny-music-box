@@ -4,5 +4,3 @@ dist
 npm-debug.log
 .DS_Store
 assets/
-app/*.js
-app/**/*.js
